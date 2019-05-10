@@ -479,26 +479,7 @@ module Beaker
         #
         # @api private
         def verify_network_resources(hosts, network_resources)
-          logger.notify("Checking the availability of network resources.")
-          hosts.each do |host|
-            # if options[:net_diag_hosts] isn't set, skip this check
-            if network_resources != nil
-              network_resources.each do |resource|
-                # curl the network resource silently (-s), only connect (-I), and don't print the output
-                on host, "curl -I -s #{resource} > /dev/null", :accept_all_exit_codes => true
-                if host.connection.logger.last_result.exit_code != 0
-                  logger.warn("Connection error: #{host.host_hash[:vmhostname]} was unable to connect to #{resource}. Please ensure that your test does not require this resource.")
-                end
-              end
-            end
-            hosts.each do |target_host|
-              ping_opts = host['platform'] =~ /windows/ ? "-n 1" : "-c1"
-              on host, "ping #{ping_opts} #{target_host.host_hash[:vmhostname]} > /dev/null", :accept_all_exit_codes => true
-              if host.connection.logger.last_result.exit_code != 0
-                logger.warn("Connection error: #{host.host_hash[:vmhostname]} was unable to connect to #{target_host.host_hash[:vmhostname]} in your testing infrastructure.")
-              end
-            end
-          end
+          logger.notify("Do absolutely nothing because that's too many pings")
         end
 
         # Check system resources, so that we might be able to find correlations
